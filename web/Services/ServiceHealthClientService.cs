@@ -22,7 +22,7 @@ namespace aspnet_core_dotnet_core
         {
             var results = new List<ServiceHealthDto>();
 
-            string baseUrl = "https://arnis-servicehealth-api.azurewebsites.net/api/servicehealth";
+            string baseUrl = "";
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(baseUrl))
             using (HttpContent content = response.Content)

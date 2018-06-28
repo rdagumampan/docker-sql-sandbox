@@ -6,9 +6,7 @@ namespace aspnet_core_dotnet_core
 {
        public class ServiceHealthRepository : IServiceHealthRepository
     {
-        string connectionString = "Server=tcp:servicehealth-dev.database.windows.net,1433;Initial Catalog=servicehealthd;Persist Security Info=False;" +
-        "User ID=rddag;Password=Lyreco2018;" +
-        "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        string connectionString = "";
 
         public List<ServiceHealthDbModel> All()
         {
