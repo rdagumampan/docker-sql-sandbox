@@ -1,0 +1,11 @@
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\bin\Debug\netcoreapp1.1\aspnet-core-dotnet-core.deps.json
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\bin\Debug\netcoreapp1.1\aspnet-core-dotnet-core.runtimeconfig.json
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\bin\Debug\netcoreapp1.1\aspnet-core-dotnet-core.runtimeconfig.dev.json
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\bin\Debug\netcoreapp1.1\aspnet-core-dotnet-core.dll
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\bin\Debug\netcoreapp1.1\aspnet-core-dotnet-core.pdb
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.csprojAssemblyReference.cache
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.csproj.CoreCompileInputs.cache
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.AssemblyInfoInputs.cache
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.AssemblyInfo.cs
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.dll
+C:\play\ServiceHealthWeb\aspnet-core-dotnet-core\obj\Debug\netcoreapp1.1\aspnet-core-dotnet-core.pdb

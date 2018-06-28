@@ -1,0 +1,38 @@
+﻿
+@using Newtonsoft.Json
+@model SolutionVm
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>You are viewing @Model.Name workspace</h3>
+<h4></h4>
+
+<h3>Current time (UTC): @DateTime.UtcNow.ToString("o") </h3>
+
+<br />
+<table class="table table-sm table-hover table-bordered" >
+    <thead class="thead-dark">
+        <tr>
+            <th>ServiceName</th>
+            <th>LastKnownLocation</th>
+            <th>LastHearbeatUtc</th>
+            <th>LastStatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Data.OrderBy(s=> s.LastPing))
+        {
+        <tr>
+            <td>@d.ServiceName</td>
+            <td>@d.Location</td>
+            <td>@d.LastPing</td>
+            <td class="@(d.AliveSince < 600 ? "bg-success":"bg-danger")">
+                @(d.AliveSince < 300 ? $"Running" : "Last heartbeat "+ d.AliveSince.ToString("#") +" secs ago, verify ASAP")
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
