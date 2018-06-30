@@ -19,7 +19,11 @@ COPY SpecflowTests/bin/Debug .
 COPY packages/xunit.runner.console.2.3.1/tools/net452 ./xunit
 
 # runs while we are building the container image
-#RUN dir c:\app
+#RUN mkdir external
+#RUN mkdir "external/features"
+#RUN mkdir "external/reports"
+#RUN mkdir "external/logs"
 
 # open the test results
-ENTRYPOINT ["c:\\app\\xunit\\xunit.console", "C:\\app\\SpecflowTests.dll"]
+ENTRYPOINT ["c:\\app\\xunit\\xunit.console", "c:\\app\\SpecflowTests.dll", "-html", "c:\\app\\external\\reports\\testreport.html"]
+
