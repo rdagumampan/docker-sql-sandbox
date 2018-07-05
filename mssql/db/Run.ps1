@@ -1,5 +1,3 @@
-#TODO: use Write-Host in all messages
-
 Param(
 	[Parameter(Mandatory)][string]$sqlServerInstance,
     [Parameter(Mandatory)][string]$sqlDatabase,
@@ -8,7 +6,6 @@ Param(
 
 Clear
 
-#$bcp = "C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\bcp.exe"
 $bcp = "bcp.exe"
 
 Set-Location $PSScriptRoot;
@@ -120,14 +117,14 @@ function ExecuteSingleSqlScript
         [string]$sqlScriptFilename
     )
 
-    "Executing sql script: $($sqlScriptFilename)..."
+    Write-Host "Executing sql script: $($sqlScriptFilename)..."
     $sqlScriptContent = Get-Content "$sqlScriptFoldername\\$sqlScriptFilename" -Raw
 
     #handle multi-statement query file
     if($sqlScriptContent -match "GO"){
 		$sqlStatementsReplaced = $sqlScriptContent -creplace "GO\b","GO;";    
         $sqlStatements = $sqlStatementsReplaced -csplit "GO;" | Where-Object {$_.length -gt 2}
-        "Found $($statements.Count) SQL statements in file."
+        Write-Host "Found $($statements.Count) SQL statements in file."
     
         $statementCount = 0
         foreach($sqlStatement in $sqlStatements){
@@ -152,17 +149,17 @@ function ExecuteSqlScriptsInfolder
 {
     param([string]$folderName)
 
-    ""
-    "Processing folder: " + $folderName 
+    Write-Host ""
+    Write-Host "Processing folder: " + $folderName 
 
     $sqlScripts = Get-ChildItem -Filter "*.sql" -Name -File $folderName | Sort-Object
     if($sqlScripts){
-        "Files found: $($sqlScripts)"
+        Write-Host "Files found: $($sqlScripts)"
         foreach($sqlScriptFilename in $sqlScripts){ 
             ExecuteSingleSqlScript $folderName $sqlScriptFilename 
         }
     }else{
-        "No sql files found in folder: $($folderName)"
+        Write-Host "No sql files found in folder: $($folderName)"
     }
 }
 
@@ -238,51 +235,51 @@ function ExecutePowerShellInFolder
 function ExecutePreExecuteFolder
 {
     $folderName = Get-ChildItem -Name -Directory | Where-Object {$_ -like "_pre"} # We are only interested in folder named "Master"
-    "Now, executing the _pre folder..."
+    Write-Host "Now, executing the _pre folder..."
     try
     {
         #runs all .ps1 files
         ExecutePowerShellInFolder $folderName
-        "Completed."
+        Write-Host "Completed."
     }
     catch
     {
-        "Error!! Stopping..."
-        Write-Host $_.Exception.Message -ForegroundColor "Red"        
+        Write-Error "Error!! Stopping..."
+        Write-Error $_.Exception.Message -ForegroundColor "Red"        
     }
 }
 
 function ExecuteDraftExecuteFolder
 {
     $folderName = Get-ChildItem -Name -Directory | Where-Object {$_ -like "_draft"} # We are only interested in folder named "Master"
-    "Now, executing the _draft folder..."
+    Write-Host "Now, executing the _draft folder..."
     try
     {
         #runs all .ps1 files
         ExecutePowerShellInFolder $folderName
-        "Completed."
+        Write-Host "Completed."
     }
     catch
     {
-        "Error!! Stopping..."
-        Write-Host $_.Exception.Message -ForegroundColor "Red"        
+        Write-Error "Error!! Stopping..."
+        Write-Error $_.Exception.Message -ForegroundColor "Red"        
     }
 }
 
 function ExecutePostExecuteFolder
 {
     $folderName = Get-ChildItem -Name -Directory | Where-Object {$_ -like "_post"} # We are only interested in folder named "Master"
-    "Now, executing the _post folder..."
+    Write-Host "Now, executing the _post folder..."
     try
     {
         #runs all .ps1 files
         ExecutePowerShellInFolder $folderName
-        "Completed."
+        Write-Host "Completed."
     }
     catch
     {
-        "Error!! Stopping..."
-        Write-Host $_.Exception.Message -ForegroundColor "Red"        
+        Write-Error "Error!! Stopping..."
+        Write-Error $_.Exception.Message -ForegroundColor "Red"        
     }
 }
 
@@ -306,7 +303,7 @@ ExecutePreExecuteFolder
 
 #starts processing all migration steps
 $currentVersion = GetCurrentVersion -sqlServerInstance $sqlServerInstance -sqlDatabase $sqlDatabase
-"Current version of sqlDatabase '$($sqlDatabase)': $($currentVersion)"
+Write-Host "Current version of sqlDatabase '$($sqlDatabase)': $($currentVersion)"
 
 $folderNames = Get-ChildItem -Name -Directory | Where-Object {$_ -like "v*_*-v*_*"} # We are only interested in folders named "v#_##-v#_##"
 $maxVersionFolderName = $folderNames | Sort-Object | Select-Object -Last 1
@@ -316,9 +313,9 @@ $errorOccured = 0
 #when db version is latest, do nothing
 if($currentVersion -eq $toVersion){
     $toVersionFound = 1
-    ""
-    "Current version of sqlDatabase is already the same as the specified value: $($toVersion)."
-    "Stopping."
+    Write-Host ""
+    Write-Host "Current version of sqlDatabase is already the same as the specified value: $($toVersion)."
+    Write-Host "Stopping."
 }
 else
 {
@@ -352,7 +349,7 @@ else
 
                 if($errorOccured -eq 0 -and -not $eo -eq 0){
                     $errorOccured = $eo
-                    "Error!! Stopping..."
+                    Write-Error "Error!! Stopping..."
                     break;
                 }
 
@@ -362,8 +359,8 @@ else
             }
             catch
             {
-                "Error!! Stopping..."
-                Write-Host $_.Exception.Message -ForegroundColor "Red"
+                Write-Error "Error!! Stopping..."
+                Write-Error $_.Exception.Message -ForegroundColor "Red"
                 $errorOccured = 1
                 break
             }
@@ -378,7 +375,7 @@ else
     }
 
     if($errorOccured){
-        "Error!! Stopped."
+        Write-Error "Error!! Stopped."
     }
 }
 
@@ -390,5 +387,5 @@ if(!$errorOccured){
     ExecutePostExecuteFolder
     
     #reset the location, Invoke-Expression cause the script path to get lost
-    Set-Location $PSScriptRoot;
+    #Set-Location $PSScriptRoot;
 }
