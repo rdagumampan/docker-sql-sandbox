@@ -1,3 +1,5 @@
+#TODO: use Write-Host in all messages
+
 Param(
 	[Parameter(Mandatory)][string]$sqlServerInstance,
     [Parameter(Mandatory)][string]$sqlDatabase,
